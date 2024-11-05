@@ -24,12 +24,10 @@ const pageComponent = component({
   },
 })
 
-type PageContent = ContentFromComponent<typeof pageComponent>
-
 /*
  * You can define the parser yourself...
  */
-
+type PageContent = ContentFromComponent<typeof pageComponent>
 const parsePageContent = blockContent<PageContent>({
   _uid: parseUuid,
   component: literal('page'),
