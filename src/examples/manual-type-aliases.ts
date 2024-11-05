@@ -1,30 +1,32 @@
 import { array, literal, oneOf, withDefault } from 'pure-parse'
-import { LinkContent, parseLinkContent } from './linkContent'
-import { AssetContent, parseAssetContent } from './assetContent'
-import { parseBooleanContent } from './booleanContent'
-import { parseNumberContent } from './numberContent'
-import { parseTextContent } from './textContent'
-import { ObjectContent, blockContent, parseUuid } from './blockContent'
+import {
+  parseBooleanContent,
+  parseNumberContent,
+  parseTextContent,
+  BlockContent,
+  blockContent,
+  parseUuid,
+  LinkContent,
+  parseLinkContent,
+  AssetContent,
+  parseAssetContent,
+} from '../content'
 
-/*
- * Examples
- */
-
-type PageContent = ObjectContent<{
+type PageContent = BlockContent<{
   component: 'page'
   title: string
   isPublic: boolean
   body: Array<HeroContent | GridContent>
 }>
 
-type HeroContent = ObjectContent<{
+type HeroContent = BlockContent<{
   component: 'hero'
   image: AssetContent | undefined
   buttonLink: LinkContent | undefined
   buttonType: 'primary' | 'secondary'
 }>
 
-type GridContent = ObjectContent<{
+type GridContent = BlockContent<{
   component: 'grid'
   columns: number
 }>
@@ -50,25 +52,3 @@ const parsePageContent = blockContent<PageContent>({
   title: withDefault(parseTextContent, ''),
   body: withDefault(array(oneOf(parseHeroContent, parseGridContent)), []),
 })
-
-// const pageComponentV1 = component({
-//   title: stringField(),
-//   isPublic: booleanField(),
-// })
-//
-// const pageComponentV2 = component({
-//   title: stringField(),
-//   padding: numberField(),
-// })
-//
-// stories.map((story) => {
-//   const { isPublic, ...rest } = story
-//   return {
-//     ...rest,
-//     padding: 10,
-//   }
-// })
-//
-// const PageContent = ContentFromComponent<typeof pageComponentV1>
-//
-// const pageContent = parsePageContent({})

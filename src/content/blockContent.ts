@@ -5,7 +5,7 @@ import { object, OptionalParser, Parser, parseString } from 'pure-parse'
 
 export const parseUuid = parseString
 
-export type ObjectContent<T extends { component: string }> = {
+export type BlockContent<T extends { component: string }> = {
   _uid: string
 } & T
 
