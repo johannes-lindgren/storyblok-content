@@ -8,13 +8,14 @@ import {
 import { literal } from 'pure-parse'
 import {
   blockContent,
+  contentParser,
   parseBooleanContent,
   parseNumberContent,
   parseTextContent,
   parseUuid,
 } from '../content'
 
-const pageComponentV1 = component({
+const pageComponent = component({
   name: 'page',
   schema: {
     title: textField(),
@@ -23,7 +24,11 @@ const pageComponentV1 = component({
   },
 })
 
-type PageContent = ContentFromComponent<typeof pageComponentV1>
+type PageContent = ContentFromComponent<typeof pageComponent>
+
+/*
+ * You can define the parser yourself...
+ */
 
 const parsePageContent = blockContent<PageContent>({
   _uid: parseUuid,
@@ -32,3 +37,9 @@ const parsePageContent = blockContent<PageContent>({
   isPublic: parseBooleanContent,
   title: parseTextContent,
 })
+
+/*
+ * ...or generate one
+ */
+
+const parsePageContentAuto = contentParser(pageComponent)

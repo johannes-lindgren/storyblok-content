@@ -25,20 +25,28 @@ export type Component = {
   schema: Schema
 }
 
-export const textField = (): TextField => {}
-export const numberField = (): NumberField => {}
-export const booleanField = (): BooleanField => {}
+export const textField = (): TextField => ({
+  type: 'text',
+})
+
+export const numberField = (): NumberField => ({
+  type: 'number',
+})
+
+export const booleanField = (): BooleanField => ({
+  type: 'boolean',
+})
 
 export const component = <T extends Component>(component: T): T => component
 
-export type Field2Content<F extends Field> = {
+export type ContentFromField<F extends Field> = {
   text: string
   number: number
   boolean: boolean
 }[F['type']]
 
 export type ContentFromComponent<T extends Component> = {
-  [K in keyof T['schema']]: Field2Content<T['schema'][K]>
+  [K in keyof T['schema']]: ContentFromField<T['schema'][K]>
 } & {
   _uid: string
   component: T['name']
