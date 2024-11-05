@@ -3,6 +3,7 @@ import {
   ContentFromComponent,
   Field,
   ContentFromField,
+  Simplify,
 } from '../component'
 import { literal, object, Parser, parseString } from 'pure-parse'
 import { parseBooleanContent } from './booleanContent'
@@ -19,7 +20,7 @@ const contentParserFromField: {
 
 export const contentParser = <C extends Component>(
   component: C,
-): Parser<ContentFromComponent<C>> =>
+): Parser<Simplify<ContentFromComponent<C>>> =>
   // @ts-ignore
   object<ContentFromComponent<C>>({
     _uid: parseString,
